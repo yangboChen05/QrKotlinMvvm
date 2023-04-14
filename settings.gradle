@@ -1,0 +1,8 @@
+rootProject.name = "QrKotlinMvvm"
+include ':app'
+include ':libraryBase'
+include ':libraryRes'
+include ':moduleMain'
+include ':moduleHome'
+include ':moduleMsg'
+include ':moduleUser'

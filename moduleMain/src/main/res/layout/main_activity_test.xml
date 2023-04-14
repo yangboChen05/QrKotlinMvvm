@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.ybc.qrmain.viewmodel.TestViewModel"/>
+        <variable
+            name="viewModel"
+            type="com.ybc.qrmain.viewmodel.TestViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:text="@={viewModel.text}"
+            android:clickable="true"
+            android:onClick="@{(v) -> viewModel.onClick()}"
+            android:gravity="center"
+            tool:text="你好啊"
+            android:layout_height="match_parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

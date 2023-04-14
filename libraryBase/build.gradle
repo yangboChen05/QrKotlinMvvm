@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+kapt {
+    generateStubs = true
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    //增加Arouter编译配置，注意顺序。此处应该在android{}中
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.dependencies["kotlin-stdlib"]
+    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["material"]
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["ext-junit"]
+    androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+
+    api rootProject.ext.dependencies["constraintlayout"]
+    api rootProject.ext.dependencies["lifecycle-extensions"]
+    api rootProject.ext.dependencies["lifecycle-viewmodel"]
+    // DataBinding 注解处理依赖
+    kapt rootProject.ext.dependencies["databinding"]
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+    implementation rootProject.ext.support["support-v4"]
+
+    //公用资源在base中依赖
+    api project(':libraryRes')
+    //阿里路由框架
+    api rootProject.ext.dependencies["arouter-api"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
+    // 底部导航for androidx
+    api 'com.github.hackware1993:MagicIndicator:1.7.0'
+}

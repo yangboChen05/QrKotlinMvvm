@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //首页导航栏的名称
+    <string name="main_home">首页</string>
+    <string name="main_message">消息</string>
+    <string name="main_my">我的</string>
+</resources>

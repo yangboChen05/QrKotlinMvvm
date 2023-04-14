@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+kapt {
+    generateStubs = true
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        //如果是独立模块，则使用当前组件的包名
+        if (isBuildModule.toBoolean()) {
+            applicationId "com.ybc.qrmsg"
+        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    //增加Arouter编译配置，注意顺序。此处应该在android{}中
+    kapt {
+        arguments {
+            arg("AROUTER_MODULE_NAME", project.getName())
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    //统一资源前缀，规范资源引用
+    resourcePrefix "msg_"
+
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.dependencies["kotlin-stdlib"]
+    implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["material"]
+    testImplementation rootProject.ext.dependencies["junit"]
+    androidTestImplementation rootProject.ext.dependencies["ext-junit"]
+    androidTestImplementation rootProject.ext.dependencies["espresso-core"]
+
+    //组件依赖基础库
+    api project(':libraryBase')
+    //阿里路由框架
+    kapt rootProject.ext.dependencies["arouter-compiler"]
+}
