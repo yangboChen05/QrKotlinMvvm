@@ -44,4 +44,9 @@ class TestActivity : QRBaseActivity<MainActivityTestBinding, TestViewModel>() {
         val postcard: Postcard = ARouter.getInstance().build("COM_ACTIVITY_RESULT")
         LogisticsCenter.completion(postcard)
     }
+
+    fun onClick3(){
+        val postcard: Postcard = ARouter.getInstance().build("COM_ACTIVITY_RESULT")
+        LogisticsCenter.completion(postcard)
+    }
 }
